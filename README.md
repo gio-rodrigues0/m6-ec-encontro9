@@ -1,29 +1,32 @@
-[Voltar para o repositório principal :house:](https://github.com/rmnicola/m6-ec-encontros.git)
+# Explicação do exercício
 
-# Integração de sistemas 1<!-- omit in toc -->
+Dividido em três scripts:
 
-## Objetivos do encontro
-* Apresentar exemplos úteis para a integração dos sistemas relacionados ao projeto.
+- publisher.py: abre o vídeo vídeo selecionado e publica cada frame em um tópico.
+- subscriber.py: subscriber que acessa todos os frames que são publicados pelo publisher e os guarda numa pasta "recebidos".
+- main.py: onde o servidor e as rotas são criadas.
 
-## Conteúdo <!-- omit in toc -->
+## Publisher
 
-- [Objetivos do encontro](#objetivos-do-encontro)
-- [Leitura de vídeo com opencv](#leitura-de-vídeo-com-opencv)
-- [Tranmissão de imagens utilizando o ROS](#tranmissão-de-imagens-utilizando-o-ros)
-- [Transmissão de imagens utilizando o ROS e backend sanic](#transmissão-de-imagens-utilizando-o-ros-e-backend-sanic)
-- [Exemplos utilizando o Supabase para armazenar imagens](#exemplos-utilizando-o-supabase-para-armazenar-imagens)
+1. Importação das bibliotecas necessárias: classe do nó, tipo da mensagem, OpenCV e a biblioteca que possibilita que imagens lidas pelo OpenCV sejam enviadas via comunicação ROS.
+2. Criação do nó junto de um publisher.
+3. Abertura do vídeo por meio do OpenCV.
+4. Iniciação do CvBridge, que faz a conversão entre imagens do OpenCV e ROS.
+5. Função de callback contendo um booleano que resulta em verdadeiro quando há frames disponíveis e publica cada frame no tópico, já se resultar em falso, o vídeo é aberto de novo.
 
-## Leitura de vídeo com opencv
+## Subscriber
 
-**Vídeo incoming**
+1. Importação das bibliotecas necessárias: classe do nó, tipo da mensagem, OpenCV, biblioteca que possibilita que imagens lidas pelo OpenCV sejam enviadas via comunicação ROS e das que possibilitam fazer requisições.
+2. Criação do nó junto com o subscriber e a inicialização do CvBridge.
+3. Por meio de uma requisição de método POST, envia os  frames para uma pasta chamada recebidos.
 
-## Tranmissão de imagens utilizando o ROS
+## Main
 
-**Vídeo incoming**
+1. Servidor criado por meio do FastAPI.
+2. Acesso as credenciais do bucket criado no Supabase.
+3. Criação de um get que lista todos os itens que estiverem dentro do bucket.
+4. Criação de um post que adiciona todos os frames lidos pelo subscriber numa pasta local chamada recebidos.
+5. Acesso as imagens que estão dentro da pasta recebidos e que, por meio de um post, são enviadas para o bucket no Supabase.
 
-## Transmissão de imagens utilizando o ROS e backend sanic
+Vídeo: https://drive.google.com/file/d/1FBBqRr2qrjkvQfwVny1fymx8Q6rhRevr/view
 
-**Vídeo incoming**
-
-## Exemplos utilizando o Supabase para armazenar imagens
-[Repositório de exemplos](https://github.com/Murilo-ZC/Supabase-Testes)
